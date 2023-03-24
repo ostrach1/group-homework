@@ -3,11 +3,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 function TableBodyRowValues({
   fetcheddata,
-  itemClasses,
+  removeItem,
   endpointName,
   rowClickHandle,
 }) {
-  console.log("fdssd", fetcheddata);
   if (endpointName === "character") {
     return (
       <>
@@ -22,7 +21,7 @@ function TableBodyRowValues({
             <TableCell>{character.species}</TableCell>
             <TableCell>{character.gender}</TableCell>
             <TableCell>
-              <DeleteIcon />
+              <DeleteIcon onClick={removeItem()} />
             </TableCell>
           </TableRow>
         ))}

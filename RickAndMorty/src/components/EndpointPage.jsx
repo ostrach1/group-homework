@@ -41,7 +41,7 @@ function EndpointPage(props) {
     for (let i = startIndex; i < endIndex; i++) {
       ids.push(i);
     }
-    console.log(ids);
+
     setIdsToFetch(ids);
   };
 
@@ -54,6 +54,7 @@ function EndpointPage(props) {
       <TableGenerator
         endpointName={endpointName}
         fetcheddata={fetcheddata}
+        setFetchData={setFetchData}
         rowClickHandle={rowClickHandle}
       />
       <TablePagination
