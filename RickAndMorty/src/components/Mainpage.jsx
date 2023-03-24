@@ -35,7 +35,7 @@ const [endpoint, setEndpoint] = useState('')
 
 {
   Object.keys(fetchedEndpoints).map(v => {
-    return <Button key={v} variant="contained" color="primary" onClick={() => handleButtonClick(`${v}`)}>  <NavLink to={`${v.toLowerCase()}`} style={{ textDecoration: 'none', color: "black"}}>{v}</NavLink></Button>
+    return <Button key={v} variant="contained" color="primary" onClick={() => handleButtonClick(`${v}`)}>  <NavLink to={`${v.toLowerCase()}`} style={{ textDecoration: 'none', color: "white"}}>{v}</NavLink></Button>
     
   })
 }
