@@ -1,27 +1,15 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  // Table,
-  // TableHead,
-  // TableRow,
-  // TableCell,
-  // TableBody,
-  // TableContainer,
-  // Paper,
-  // Button,
-  Pagination,
-  TablePagination,
-} from "@mui/material";
-import Table from "./TableGenerator";
+import { Pagination, TablePagination } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+import TableGenerator from "./TableGenerator";
 
 function EndpointPage(props) {
   const [fetcheddata, setFetchData] = useState([]);
-  console.log("fetcheddata", fetcheddata);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const { endpointName } = props;
-  console.log("endpointname", endpointName);
+
   const [idsToFetch, setIdsToFetch] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   const navigate = useNavigate();
 
@@ -31,7 +19,6 @@ function EndpointPage(props) {
         `https://rickandmortyapi.com/api/${endpointName}/${idsToFetch}`
       );
       setFetchData(response.data);
-      console.log(response.data);
       getIdsForPage(page, rowsPerPage);
     }
     fetchData();
@@ -64,36 +51,11 @@ function EndpointPage(props) {
 
   return (
     <div>
-      <Table endpointName={endpointName} fetcheddata={fetcheddata} />
-      {/* <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>id</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Species</TableCell>
-              <TableCell>Gender</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {console.log(fetcheddata)}
-            {fetcheddata.map((character, index) => (
-              <TableRow
-                key={character.id}
-                onClick={() => rowClickHandle(character.id)}
-              >
-                <TableCell>{character.id}</TableCell>
-                <TableCell>{character.name}</TableCell>
-                <TableCell>{character.created}</TableCell>
-                <TableCell>{character.species}</TableCell>
-                <TableCell>{character.gender}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer> */}
-
+      <TableGenerator
+        endpointName={endpointName}
+        fetcheddata={fetcheddata}
+        rowClickHandle={rowClickHandle}
+      />
       <TablePagination
         component="div"
         count={100}
