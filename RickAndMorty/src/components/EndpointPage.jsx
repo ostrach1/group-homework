@@ -8,6 +8,7 @@ function EndpointPage(props) {
   const [fetcheddata, setFetchData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [count, setCount] = useState();
   const { endpointName } = props;
 
   const [idsToFetch, setIdsToFetch] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
@@ -18,8 +19,13 @@ function EndpointPage(props) {
       const response = await axios.get(
         `https://rickandmortyapi.com/api/${endpointName}/${idsToFetch}`
       );
+      const auxiliaryFetch = await axios.get(
+        `https://rickandmortyapi.com/api/${endpointName}/`
+      );
       setFetchData(response.data);
       getIdsForPage(page, rowsPerPage);
+      setCount(auxiliaryFetch.data.info.count);
+      console.log("dasd", response);
     }
     fetchData();
   }, [page, rowsPerPage, endpointName]);
@@ -59,7 +65,7 @@ function EndpointPage(props) {
       />
       <TablePagination
         component="div"
-        count={100}
+        count={count}
         page={page}
         onPageChange={handlePageChange}
         rowsPerPage={rowsPerPage}

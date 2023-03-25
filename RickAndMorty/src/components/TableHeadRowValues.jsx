@@ -21,7 +21,7 @@ function TableHeadRowValues({ endpointName }) {
     }
   }
   const mapped = itemClasses(endpointName).map((value) => {
-    return <TableCell>{value}</TableCell>;
+    return <TableCell key={value}>{value}</TableCell>;
   });
   return <TableRow>{mapped}</TableRow>;
 }
