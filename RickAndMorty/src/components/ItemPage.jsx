@@ -1,12 +1,13 @@
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, Button, Pagination, TablePagination, Typography, useTheme} from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, Button, Pagination, TablePagination, Typography} from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import ClearIcon from '@mui/icons-material/Clear';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useParams } from 'react-router-dom';
 import { ThemeContext } from '../context/ThemeContext';
-
+import { Box } from '@mui/material';
+import { useTheme } from '@mui/material';
 function ItemPage() {
   const [fetchedItemData, setItemFetchData] = useState([]);
 

@@ -1,10 +1,14 @@
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, Button, Pagination, TablePagination, Box, useTheme} from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, Button, Pagination, TablePagination } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import ClearIcon from '@mui/icons-material/Clear';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { ThemeContext } from '../context/ThemeContext';
+import { Box } from '@mui/material';
+import { useTheme } from '@mui/material';
+import SearchField from './SearchField';
+
 
 
 function EndpointPage(props) {
@@ -16,7 +20,8 @@ function EndpointPage(props) {
   const [columnName, setColumnName] = useState([]);
   const theme = useTheme();
   const colorMode = useContext(ThemeContext);
-
+  const [count, setCount] = useState();
+  const [search, setSearch] = useState();
 
 
   useEffect(() => {
@@ -30,14 +35,29 @@ function EndpointPage(props) {
     }
     console.log(ids)
 
-    async function fetchData() {
-      const response = await axios.get(`https://rickandmortyapi.com/api/${endpointName}/${ids}`);
-      setFetchData(response.data);
+    async function fetchData(name) {
+      const response = await axios.get(
+        `https://rickandmortyapi.com/api/${endpointName}/${
+          name !== undefined ? `?name=${name}` : ids
+        }`
+      );
+
+      const auxiliaryFetch = await axios.get(
+        `https://rickandmortyapi.com/api/${endpointName}`
+      );
+
+      setFetchData(name !== undefined ? response.data.results : response.data);
       getColumnName()
 
+      setCount(
+        name !== undefined
+          ? response.data.info.count
+          : auxiliaryFetch.data.info.count
+      );
     }
-    fetchData();
-  }, [page, rowsPerPage ]);
+    fetchData(search);
+  }, [page, rowsPerPage, endpointName, search]);
+
 
   const handlePageChange = (event, value) => {
 
@@ -101,11 +121,12 @@ function EndpointPage(props) {
         </Table>
       </TableContainer>
 
-
+      <SearchField search={search} setSearch={setSearch} />
+       
 
         <TablePagination
       component="div"
-      count={100}
+      count={count}
       page={page}
       onPageChange={handlePageChange}
       rowsPerPage={rowsPerPage}

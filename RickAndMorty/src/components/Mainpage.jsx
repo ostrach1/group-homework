@@ -1,10 +1,11 @@
 import React from 'react'
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, Button, Pagination, Box, useTheme} from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, Button, Pagination} from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { ThemeContext } from '../context/ThemeContext';
-
+import { Box } from '@mui/material';
+import { useTheme } from '@mui/material';
 
 function Mainpage() {
 const [fetchedEndpoints, setFetchEndpoints] = useState([]);
@@ -38,7 +39,7 @@ const colorMode = useContext(ThemeContext);
 
 {
   Object.keys(fetchedEndpoints).map(v => {
-    return <Button key={v} variant="contained" color="primary" onClick={() => handleButtonClick(`${v}`)}>  <NavLink to={`${v.toLowerCase()}`} style={{ textDecoration: 'none', color: "white"}}>{v}</NavLink></Button>
+    return <Button key={v} variant="contained" color="primary"   sx={{ margin: 2 }} onClick={() => handleButtonClick(`${v}`)}>  <NavLink to={`${v.toLowerCase()}`} style={{ textDecoration: 'none', color: "white"}}>{v}</NavLink></Button>
     
   })
 }
