@@ -3,32 +3,41 @@ import axios from "axios";
 import { Pagination, TablePagination } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import TableGenerator from "./TableGenerator";
+import StateTextFields from "./StateTextFields";
 
 function EndpointPage(props) {
   const [fetcheddata, setFetchData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState();
+  const [search, setSearch] = useState();
   const { endpointName } = props;
 
   const [idsToFetch, setIdsToFetch] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchData(name) {
       const response = await axios.get(
-        `https://rickandmortyapi.com/api/${endpointName}/${idsToFetch}`
+        `https://rickandmortyapi.com/api/${endpointName}/${
+          name !== undefined ? `?name=${name}` : idsToFetch
+        }`
       );
+
       const auxiliaryFetch = await axios.get(
-        `https://rickandmortyapi.com/api/${endpointName}/`
+        `https://rickandmortyapi.com/api/${endpointName}`
       );
-      setFetchData(response.data);
+
+      setFetchData(name !== undefined ? response.data.results : response.data);
       getIdsForPage(page, rowsPerPage);
-      setCount(auxiliaryFetch.data.info.count);
-      console.log("dasd", response);
+      setCount(
+        name !== undefined
+          ? response.data.info.count
+          : auxiliaryFetch.data.info.count
+      );
     }
-    fetchData();
-  }, [page, rowsPerPage, endpointName]);
+    fetchData(search);
+  }, [page, rowsPerPage, endpointName, search]);
 
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -57,6 +66,7 @@ function EndpointPage(props) {
 
   return (
     <div>
+      <StateTextFields search={search} setSearch={setSearch} />
       <TableGenerator
         endpointName={endpointName}
         fetcheddata={fetcheddata}

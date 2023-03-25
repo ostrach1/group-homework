@@ -10,7 +10,7 @@ function TableBodyRowValues({
   if (endpointName === "character") {
     return (
       <>
-        {fetcheddata.map((character, index) => (
+        {fetcheddata.map((character) => (
           <TableRow
             key={character.id}
             onClick={() => rowClickHandle(character.id)}
