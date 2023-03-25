@@ -1,15 +1,16 @@
 import React from 'react'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, Button, Pagination} from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, Button, Pagination, Box, useTheme} from '@mui/material';
 import { NavLink } from 'react-router-dom';
-
+import { ThemeContext } from '../context/ThemeContext';
 
 
 function Mainpage() {
 const [fetchedEndpoints, setFetchEndpoints] = useState([]);
 const [endpoint, setEndpoint] = useState('')
-
+const theme = useTheme();
+const colorMode = useContext(ThemeContext);
 
 
     useEffect(() => {
@@ -31,7 +32,9 @@ const [endpoint, setEndpoint] = useState('')
 
   return (
       <>
+ <Box backgroundColor={theme.palette.background.default}
 
+>
 
 {
   Object.keys(fetchedEndpoints).map(v => {
@@ -41,7 +44,7 @@ const [endpoint, setEndpoint] = useState('')
 }
 
 
-
+</Box>
     </>
   )
 }
