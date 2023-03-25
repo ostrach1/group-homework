@@ -5,7 +5,6 @@ import { BrowserRouter, createBrowserRouter, createRoutesFromElements, Route, Ro
 import EndpointPage from './components/EndpointPage'
 import Mainpage from './components/Mainpage'
 import RootLayout from './layouts/RootLayout';
-import ItemPage from './components/ItemPage';
 
 
 const router = createBrowserRouter(
@@ -15,7 +14,7 @@ const router = createBrowserRouter(
     <Route path="/characters" element={<EndpointPage endpointName="character" />} />
     <Route path="/episodes" element={<EndpointPage endpointName="episode" />} />
     <Route path="/locations" element={<EndpointPage endpointName="location" />} />
-    <Route path="/:endpointName/:id" element={<ItemPage/>} />
+
     </Route>
   ))
 function App() {
