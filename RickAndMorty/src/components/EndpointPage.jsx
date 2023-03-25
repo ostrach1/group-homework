@@ -1,88 +1,78 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { Pagination, TablePagination } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
-import TableGenerator from "./TableGenerator";
-import StateTextFields from "./StateTextFields";
+import React from 'react'
+
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, Button, Pagination} from '@mui/material';
+
 
 function EndpointPage(props) {
-  const [fetcheddata, setFetchData] = useState([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [count, setCount] = useState();
-  const [search, setSearch] = useState();
-  const { endpointName } = props;
+    const [fetcheddata, setFetchData] = useState([]);
+    const [page, setPage] = useState(1);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const { endpointName } = props;
 
-  const [idsToFetch, setIdsToFetch] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-  const navigate = useNavigate();
+    useEffect(() => {
+      async function fetchData() {
+        const response = await axios.get(`https://rickandmortyapi.com/api/${endpointName}`);
+        setFetchData(response.data.results);
+      }
+      fetchData();
+      
+    }, [fetcheddata, page, rowsPerPage]);
 
-  useEffect(() => {
-    async function fetchData(name) {
-      const response = await axios.get(
-        `https://rickandmortyapi.com/api/${endpointName}/${
-          name !== undefined ? `?name=${name}` : idsToFetch
-        }`
-      );
 
-      const auxiliaryFetch = await axios.get(
-        `https://rickandmortyapi.com/api/${endpointName}`
-      );
-
-      setFetchData(name !== undefined ? response.data.results : response.data);
-      getIdsForPage(page, rowsPerPage);
-      setCount(
-        name !== undefined
-          ? response.data.info.count
-          : auxiliaryFetch.data.info.count
-      );
-    }
-    fetchData(search);
-  }, [page, rowsPerPage, endpointName, search]);
-
+  
   const handlePageChange = (event, value) => {
-    setPage(value);
-  };
+      setPage(value);
+    };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-    getIdsForPage(page, parseInt(event.target.value, 10));
-  };
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    };
 
-  const getIdsForPage = (page, rowsPerPage) => {
-    const startIndex = page * rowsPerPage;
-    const endIndex = startIndex + rowsPerPage;
-    const ids = [];
-    for (let i = startIndex; i < endIndex; i++) {
-      ids.push(i);
-    }
 
-    setIdsToFetch(ids);
-  };
 
-  const rowClickHandle = (id) => {
-    navigate(`/${endpointName}/${id}`);
-  };
 
   return (
     <div>
-      <StateTextFields search={search} setSearch={setSearch} />
-      <TableGenerator
-        endpointName={endpointName}
-        fetcheddata={fetcheddata}
-        setFetchData={setFetchData}
-        rowClickHandle={rowClickHandle}
-      />
-      <TablePagination
-        component="div"
-        count={count}
-        page={page}
-        onPageChange={handlePageChange}
-        rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+
+
+
+<TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Name</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Species</TableCell>
+            <TableCell>Gender</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {fetcheddata.map((character, index) => (
+            <TableRow key={character.id}>
+              <TableCell>{character.name}</TableCell>
+              <TableCell>{character.status}</TableCell>
+              <TableCell>{character.species}</TableCell>
+              <TableCell>{character.gender}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+    <Pagination count={34} page={page}  onChange={handlePageChange}   rowsPerPage={rowsPerPage}
+      onRowsPerPageChange={handleChangeRowsPerPage} sx={{color: "white"}}/>
+
+
+
+
+
+
+
+
     </div>
-  );
+  )
 }
 
-export default EndpointPage;
+export default EndpointPage
