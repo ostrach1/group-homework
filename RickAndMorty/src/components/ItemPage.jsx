@@ -14,7 +14,7 @@ function ItemPage() {
   const { id, endpointName } = useParams();
   const theme = useTheme();
   const colorMode = useContext(ThemeContext);
-
+  let ArrofDetails = [];
 
   useEffect(() => {
     async function fetchData() {
@@ -26,9 +26,33 @@ function ItemPage() {
     fetchData();
   }, []);
 
+  const fetchDetails = async (value) => {
+     ArrofDetails = [];
+
+    
+    for (let url of value) {
+
+            const response = await axios.get(url);
+             ArrofDetails.push(response.data.name)
+  }
+
+  console.log(ArrofDetails)
+return ArrofDetails
+}
+
+
+
+
   const fetchItemDetails = (value) => {
     if(typeof value === 'object') {
+      if(value.length > 2) {
+        let dataofdetails = fetchDetails(value);
+        
 
+        return ArrofDetails
+      }
+
+      return value.name
     } else 
     return value
   }
@@ -48,18 +72,3 @@ function ItemPage() {
 }
 
 export default ItemPage;
-
-
-
-// if(typeof value1 === 'object' && value1 !== null) {
-                
-//   let names = "";
-//   for (let url of value1) {
-//       const response = await fetch(url);
-//       const data = await response.json();
-//       if(data.name !== 'undefined' && elem !== 'films')
-//       names += data.name + ", ";
-//       else {
-          
-//           names += data.title + ", ";
-//       }
