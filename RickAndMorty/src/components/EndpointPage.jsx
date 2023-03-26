@@ -123,7 +123,7 @@ function EndpointPage(props) {
 
       <SearchField search={search} setSearch={setSearch} />
        
-
+      {count && 
         <TablePagination
       component="div"
       count={count}
@@ -131,7 +131,7 @@ function EndpointPage(props) {
       onPageChange={handlePageChange}
       rowsPerPage={rowsPerPage}
       onRowsPerPageChange={handleChangeRowsPerPage}
-    />
+    />}
     </Box>
   )
 }

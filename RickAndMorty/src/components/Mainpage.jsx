@@ -14,14 +14,24 @@ const theme = useTheme();
 const colorMode = useContext(ThemeContext);
 
 
-    useEffect(() => {
-        async function fetchData() {
-          const response = await axios.get(`https://rickandmortyapi.com/api`);
-          setFetchEndpoints(response.data);
-        }
-        fetchData();
-        
-      }, [fetchedEndpoints]);
+useEffect(() => {
+  async function fetchData() {
+    const response = await axios.get(`https://rickandmortyapi.com/api`);
+    setFetchEndpoints(response.data);
+    console.log()
+    // Zapisywanie pobranych danych w localStorage
+    localStorage.setItem('fetchedEndpoints', JSON.stringify(response.data));
+  }
+
+  // Sprawdzanie, czy dane są już zapisane w localStorage i pobieranie ich
+  const savedEndpoints = localStorage.getItem('fetchedEndpoints');
+  if (savedEndpoints) {
+    setFetchEndpoints(JSON.parse(savedEndpoints));
+  } else {
+    fetchData();
+  }
+  
+}, []);
 
     const handleButtonClick = (newEndpoint) => {
         setEndpoint(newEndpoint);
