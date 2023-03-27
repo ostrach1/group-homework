@@ -8,14 +8,16 @@ import { useParams } from 'react-router-dom';
 import { ThemeContext } from '../context/ThemeContext';
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material';
+
 function ItemPage() {
   const [fetchedItemData, setItemFetchData] = useState([]);
+  const [itemDetails, setItemDetails] = useState([]);
 
   const { id, endpointName } = useParams();
   const theme = useTheme();
   const colorMode = useContext(ThemeContext);
   let ArrofDetails = [];
-
+  
   useEffect(() => {
     async function fetchData() {
       let BASE_URL = `https://rickandmortyapi.com/api/${endpointName}/${id}`;
@@ -27,7 +29,6 @@ function ItemPage() {
   }, []);
 
   const fetchDetails = async (value) => {
-     ArrofDetails = [];
 
     
     for (let url of value) {
@@ -35,27 +36,28 @@ function ItemPage() {
             const response = await axios.get(url);
              ArrofDetails.push(response.data.name)
   }
-
-  console.log(ArrofDetails)
+ 
 return ArrofDetails
+}
+
+const fetchItemDetails = (value) => {
+  if (typeof value === 'object') {
+    if (value.length > 2) {
+      let dataofdetails = fetchDetails(value);
+      dataofdetails.then((results) => {
+        setItemDetails(results); // set the state variable with the results
+      });
+    }
+    return value.name;
+  } else {
+    return value;
+  }
 }
 
 
 
 
-  const fetchItemDetails = (value) => {
-    if(typeof value === 'object') {
-      if(value.length > 2) {
-        let dataofdetails = fetchDetails(value);
-        
 
-        return ArrofDetails
-      }
-
-      return value.name
-    } else 
-    return value
-  }
 
   return (
     <Box sx={{display:"flex", flexWrap: "wrap", height: "100vh", bgcolor: theme.palette.background.default, justifyContent: "center"}}>
@@ -65,7 +67,12 @@ return ArrofDetails
         {key}: {fetchItemDetails(value) }
         
       </Typography>
-    ))}
+    ))} 
+       {/* {itemDetails.map((detail, index) => (
+          <Typography key={index} sx={{}}>
+            {detail}
+          </Typography>
+        ))} */}
 
     <Button variant="contained" >TEST</Button></Box>
   </Box>
