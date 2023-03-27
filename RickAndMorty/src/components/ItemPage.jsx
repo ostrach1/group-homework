@@ -58,16 +58,17 @@ return ArrofDetails
   }
 
   return (
-    <div>
+    <Box sx={{display:"flex", flexWrap: "wrap", height: "100vh", bgcolor: theme.palette.background.default, justifyContent: "center"}}>
+      <Box> 
     {Object.entries(fetchedItemData).map(([key, value]) => (
-      <Typography key={key} sx={{wordWrap: "break-word"}}>
+      <Typography key={key} sx={{wordWrap: "break-word", width: "100%"}}>
         {key}: {fetchItemDetails(value) }
         
       </Typography>
     ))}
 
-    <Button variant="contained" >TEST</Button>
-  </div>
+    <Button variant="contained" >TEST</Button></Box>
+  </Box>
   )
 }
 
