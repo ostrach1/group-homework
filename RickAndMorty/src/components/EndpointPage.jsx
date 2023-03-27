@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, Button, Pagination, TablePagination } from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, Button, Pagination, TablePagination, Container } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import ClearIcon from '@mui/icons-material/Clear';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -91,8 +91,9 @@ function EndpointPage(props) {
 
   return (
     <Box backgroundColor={theme.palette.background.default}
-
+    sx={{height: "100vh"}}
     >
+      <Container> 
       <TableContainer component={Paper}>
         
         <Table>
@@ -110,7 +111,15 @@ function EndpointPage(props) {
             {fetcheddata.map(character => (
                <TableRow key={character.id} onClick={() => rowClickHandle(character.id)}>
                {columnName.map(column => (
-       <TableCell key={column}>{character[column.toLowerCase()]}</TableCell>
+       <TableCell key={column}>
+        {(column === 'created' || column ==='Created')
+        ? new Date(character[column.toLowerCase()]).toLocaleDateString('pl-PL', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+          })
+        : character[column.toLowerCase()]}
+        </TableCell>
 
       ))}
  
@@ -120,7 +129,7 @@ function EndpointPage(props) {
           </TableBody>
         </Table>
       </TableContainer>
-
+      
       <SearchField search={search} setSearch={setSearch} />
        
       {count && 
@@ -131,7 +140,7 @@ function EndpointPage(props) {
       onPageChange={handlePageChange}
       rowsPerPage={rowsPerPage}
       onRowsPerPageChange={handleChangeRowsPerPage}
-    />}
+    />}</Container>
     </Box>
   )
 }

@@ -43,18 +43,18 @@ useEffect(() => {
 
   return (
       <>
- <Box backgroundColor={theme.palette.background.default}
-
+ <Box 
+  sx={{display: "flex", justifyContent: "center", height: "100vh", bgcolor:theme.palette.background.default, m:0}}
 >
-
+<Box> 
 {
   Object.keys(fetchedEndpoints).map(v => {
-    return <Button key={v} variant="contained" color="primary"   sx={{ margin: 2 }} onClick={() => handleButtonClick(`${v}`)}>  <NavLink to={`${v.toLowerCase()}`} style={{ textDecoration: 'none', color: "white"}}>{v}</NavLink></Button>
+    return <Button key={v} variant="contained" color="secondary"   sx={{ margin: 2 }} onClick={() => handleButtonClick(`${v}`)}>  <NavLink to={`${v.toLowerCase()}`} style={{ textDecoration: 'none', color: "white"}}>{v}</NavLink></Button>
     
   })
 }
 
-
+</Box>
 </Box>
     </>
   )

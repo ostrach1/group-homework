@@ -29,7 +29,7 @@ export const themeSetup = (mode) => {
                     main: "#d0d1d5",
                   },
                   secondary: {
-                    main: "#4cceac",
+                    main: "#d0d1d5",
                   },
                   neutral: {
                     dark: "#3d3d3d",
