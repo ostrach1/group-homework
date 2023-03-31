@@ -8,6 +8,8 @@ import RootLayout from './layouts/RootLayout';
 import ItemPage from './components/ItemPage';
 import {useMode, ThemeContext} from './context/ThemeContext';
 import { ThemeProvider } from '@mui/material';
+import { SnackbarProvider, useSnackbar } from 'notistack'
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +26,8 @@ function App() {
 const [theme, colorMode] = useMode()
 
   return (
+    <SnackbarProvider>
+
     <ThemeContext.Provider value={colorMode}>
     <ThemeProvider theme={theme}>
     <div className="App">
@@ -33,6 +37,8 @@ const [theme, colorMode] = useMode()
     </div>
     </ThemeProvider>
     </ThemeContext.Provider>
+    </SnackbarProvider>
+
   )
 }
 

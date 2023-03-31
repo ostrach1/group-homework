@@ -11,6 +11,7 @@ export const themeSetup = (mode) => {
                   // palette values for dark mode
                   primary: {
                     main: "#141b2d",
+                    contrastText: "#FFFFFF"
                   },
                   secondary: {
                     main: "#4cceac",
@@ -27,9 +28,11 @@ export const themeSetup = (mode) => {
                   // palette values for light mode
                   primary: {
                     main: "#d0d1d5",
+                    contrastText: "#000000"
+
                   },
                   secondary: {
-                    main: "#d0d1d5",
+                    main: "#141b2d",
                   },
                   neutral: {
                     dark: "#3d3d3d",
