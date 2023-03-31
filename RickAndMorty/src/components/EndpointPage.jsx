@@ -8,6 +8,7 @@ import { ThemeContext } from '../context/ThemeContext';
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material';
 import SearchField from './SearchField';
+import Checkbox from '@mui/material/Checkbox';
 
 
 
@@ -112,6 +113,7 @@ function EndpointPage(props) {
                <TableRow key={character.id} onClick={() => rowClickHandle(character.id)}>
                {columnName.map(column => (
        <TableCell key={column}>
+         { column === "id" ? <Checkbox /> : null }
         {(column === 'created' || column ==='Created')
         ? new Date(character[column.toLowerCase()]).toLocaleDateString('pl-PL', {
             day: '2-digit',

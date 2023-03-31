@@ -11,7 +11,7 @@ import { useTheme } from '@mui/material';
 
 function ItemPage() {
   const [fetchedItemData, setItemFetchData] = useState([]);
-  const [itemDetails, setItemDetails] = useState([]);
+  // const [itemDetails, setItemDetails] = useState([]);
 
   const { id, endpointName } = useParams();
   const theme = useTheme();
@@ -45,9 +45,11 @@ const fetchItemDetails = (value) => {
     if (value.length > 2) {
       let dataofdetails = fetchDetails(value);
       dataofdetails.then((results) => {
-        setItemDetails(results); // set the state variable with the results
+       return results
       });
+      
     }
+
     return value.name;
   } else {
     return value;
@@ -68,11 +70,12 @@ const fetchItemDetails = (value) => {
         
       </Typography>
     ))} 
-       {/* {itemDetails.map((detail, index) => (
-          <Typography key={index} sx={{}}>
-            {detail}
+
+       {ArrofDetails.length > 1 && ArrofDetails.map((detail, index) => (
+          <Typography key={index} sx={{width:"100%"}}>
+            {console.log("FFf",detail)}
           </Typography>
-        ))} */}
+        ))}
 
     <Button variant="contained" >TEST</Button></Box>
   </Box>
