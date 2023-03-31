@@ -36,7 +36,7 @@ function NavBar() {
             <Box>  
     
    
-    <Link to="/"  onClick={colorMode.toggleColorMode}>
+    <Link to="/"  >
           {theme.palette.mode !== "dark" ? (
                 <img src={logo} alt='logo' style={{width: '6.5rem', marginLeft: '2rem'}} />  
 

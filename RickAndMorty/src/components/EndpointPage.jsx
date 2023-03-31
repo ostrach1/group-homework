@@ -9,6 +9,7 @@ import { Box } from '@mui/material';
 import { useTheme } from '@mui/material';
 import SearchField from './SearchField';
 import Checkbox from '@mui/material/Checkbox';
+import { useSnackbar } from 'notistack';
 
 
 
@@ -23,7 +24,8 @@ function EndpointPage(props) {
   const colorMode = useContext(ThemeContext);
   const [count, setCount] = useState();
   const [search, setSearch] = useState();
-
+  const [selectedIds, setSelectedIds] = useState([]);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
 
@@ -85,10 +87,29 @@ function EndpointPage(props) {
     setColumnName(endpointName === "character"
     ? ["id", "name", "species", "gender", "created"]
     : endpointName === "episode"
-    ? ["ID", "Episode", "Name", "Air_Date",  "Created"]
-    : ["ID", "Name", "Type", "Dimension",  "Created"])
+    ? ["id", "Episode", "Name", "Air_Date",  "Created"]
+    : ["id", "Name", "Type", "Dimension",  "Created"])
   }
+  const handleCheckboxClick = (event, id) => {
+    console.log("IDD", id)
+    if (event.target.checked) {
+      setSelectedIds([...selectedIds, id]);
+    }
 
+  };
+
+  const handleClearClick = (id) => {
+    const updatedFetchedData = fetcheddata.filter(character => character.id !== id);
+    setFetchData(updatedFetchedData);
+    enqueueSnackbar(`Deleted character with id ${id}`, { variant: 'success' });
+  };
+
+  const removeSelectedRows = () => {
+    console.log(selectedIds)
+    const updatedFetchedData = fetcheddata.filter(character => !selectedIds.includes(character.id));
+    setFetchData(updatedFetchedData);
+    enqueueSnackbar(`Deleted characters with id ${selectedIds}`, { variant: 'success' });
+  }
 
   return (
     <Box backgroundColor={theme.palette.background.default}
@@ -110,10 +131,13 @@ function EndpointPage(props) {
           
           <TableBody>
             {fetcheddata.map(character => (
-               <TableRow key={character.id} onClick={() => rowClickHandle(character.id)}>
+               <TableRow key={character.id} >
                {columnName.map(column => (
        <TableCell key={column}>
-         { column === "id" ? <Checkbox /> : null }
+         <Box  sx={{display: "flex", alignItems: "center"}}>
+         { column === "id" ? <Checkbox onChange={() => handleCheckboxClick(event, character.id)} /> : null }
+           <Box onClick={()=> rowClickHandle(character.id)}> 
+   
         {(column === 'created' || column ==='Created')
         ? new Date(character[column.toLowerCase()]).toLocaleDateString('pl-PL', {
             day: '2-digit',
@@ -121,19 +145,22 @@ function EndpointPage(props) {
             year: 'numeric'
           })
         : character[column.toLowerCase()]}
-        </TableCell>
+       </Box></Box> </TableCell>
 
       ))}
  
-       <TableCell><ClearIcon sx={{marginRight: "10px"}} />< ArrowForwardIcon /></TableCell>
+       <TableCell><Box> <ClearIcon sx={{marginRight: "10px"}} onClick={() => handleClearClick(character.id)} />< ArrowForwardIcon onClick={()=> rowClickHandle(character.id)} /></Box></TableCell>
               </TableRow> 
             ))}
           </TableBody>
         </Table>
       </TableContainer>
       
+      <Box sx={{display: "flex", justifyContent: "space-between"}}> 
+      <Box sx={{display: "flex"}}>
       <SearchField search={search} setSearch={setSearch} />
-       
+      <Button variant="contained" onClick={removeSelectedRows} sx={{m:2, alignItems:"center"}}>Delete Selected Items</Button>
+      </Box>
       {count && 
         <TablePagination
       component="div"
@@ -142,7 +169,7 @@ function EndpointPage(props) {
       onPageChange={handlePageChange}
       rowsPerPage={rowsPerPage}
       onRowsPerPageChange={handleChangeRowsPerPage}
-    />}</Container>
+    />}</Box></Container>
     </Box>
   )
 }
