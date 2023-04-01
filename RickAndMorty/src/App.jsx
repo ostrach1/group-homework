@@ -10,7 +10,6 @@ import {useMode, ThemeContext} from './context/ThemeContext';
 import { ThemeProvider } from '@mui/material';
 import { SnackbarProvider, useSnackbar } from 'notistack'
 
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={ <RootLayout />}>
@@ -18,6 +17,7 @@ const router = createBrowserRouter(
     <Route path="/characters" element={<EndpointPage endpointName="character" />} />
     <Route path="/episodes" element={<EndpointPage endpointName="episode" />} />
     <Route path="/locations" element={<EndpointPage endpointName="location" />} />
+   
     <Route path="/:endpointName/:id" element={<ItemPage/>} />
     </Route>
   ))
