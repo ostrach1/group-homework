@@ -2,7 +2,7 @@ import { useState } from 'react'
 import React from 'react'
 import './index.css'
 import { BrowserRouter, createBrowserRouter, createRoutesFromElements, Route, RouterProvider, Routes } from 'react-router-dom';
-import EndpointPage from './components/EndpointPage'
+import EndpointPage from './components/TablePage/EndpointPage'
 import Mainpage from './components/Mainpage'
 import RootLayout from './layouts/RootLayout';
 import ItemPage from './components/ItemPage';
