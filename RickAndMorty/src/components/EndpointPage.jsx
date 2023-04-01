@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, Button, Pagination, TablePagination, Container, IconButton } from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, Button, Pagination, TablePagination, Container, Dialog, DialogActions, DialogTitle} from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import ClearIcon from '@mui/icons-material/Clear';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -10,6 +10,7 @@ import { useTheme } from '@mui/material';
 import SearchField from './SearchField';
 import Checkbox from '@mui/material/Checkbox';
 import { useSnackbar } from 'notistack';
+import { IconButton } from '@mui/material';
 
 
 
@@ -26,6 +27,11 @@ function EndpointPage(props) {
   const [search, setSearch] = useState();
   const [selectedIds, setSelectedIds] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
+  const [RemovingItemPopup, setRemovingItemPopup] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
+
+
 
   useEffect(() => {
 
@@ -99,21 +105,32 @@ function EndpointPage(props) {
   };
 
   const handleClearClick = (id) => {
+    handleClose();
     const updatedFetchedData = fetcheddata.filter(character => character.id !== id);
     setFetchData(updatedFetchedData);
     enqueueSnackbar(`Deleted character with id ${id}`, { variant: 'success' });
   };
 
   const removeSelectedRows = () => {
-    console.log(selectedIds)
-    const updatedFetchedData = fetcheddata.filter(character => !selectedIds.includes(character.id));
+    console.log(selectedIds);
+        const updatedFetchedData = fetcheddata.filter(character => !selectedIds.includes(character.id));
     setFetchData(updatedFetchedData);
     enqueueSnackbar(`Deleted characters with id ${selectedIds}`, { variant: 'success' });
+
   }
 
   const AddNewItem = () => {
 
   }
+
+  const handleClose = () => {
+    setRemovingItemPopup(false);
+  };
+
+  const openConfirmWindow = (id) => {
+    setRemovingItemPopup(true);
+    setSelectedId(id);
+  };
 
   return (
     <> 
@@ -150,11 +167,19 @@ function EndpointPage(props) {
             year: 'numeric'
           })
         : character[column.toLowerCase()]}
-       </Box></Box> </TableCell>
+       </Box>
+ 
+
+</Box> </TableCell>
 
       ))}
  
-       <TableCell><Box> <ClearIcon sx={{marginRight: "10px"}} onClick={() => handleClearClick(character.id)} />< ArrowForwardIcon onClick={()=> rowClickHandle(character.id)} /></Box></TableCell>
+       <TableCell><Box> 
+         <ClearIcon sx={{marginRight: "10px"}} onClick={    ()=> openConfirmWindow(character.id)} />
+   
+         
+         
+         < ArrowForwardIcon onClick={()=> rowClickHandle(character.id)} /></Box></TableCell>
               </TableRow> 
             ))}
           </TableBody>
@@ -178,8 +203,19 @@ function EndpointPage(props) {
     />}</Box></Container>
     </Box>
 
-
-
+    <Dialog
+             open={RemovingItemPopup}
+             onClose={handleClose}
+             aria-labelledby="alert-dialog-title"
+             >
+   <DialogTitle id="alert-dialog-title">
+          {"Are you sure that you want to remove that item?"}
+        </DialogTitle>
+        <DialogActions>
+          <Button color="secondary" variant="contained" onClick={handleClose}>Disagree</Button>
+          <Button color="secondary" variant="contained" onClick={() => handleClearClick(selectedId)} autoFocus>Agree</Button>
+        </DialogActions>
+         </Dialog>
 
 
 
