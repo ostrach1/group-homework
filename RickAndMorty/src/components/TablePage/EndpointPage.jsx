@@ -1,17 +1,16 @@
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, Button, Pagination, TablePagination, Container, Dialog, DialogActions, DialogTitle} from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, Button, Pagination, TablePagination, Container, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText, TextField} from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import ClearIcon from '@mui/icons-material/Clear';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { ThemeContext } from '../context/ThemeContext';
+import { ThemeContext } from '../../context/ThemeContext';
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material';
 import SearchField from './SearchField';
 import Checkbox from '@mui/material/Checkbox';
 import { useSnackbar } from 'notistack';
 import { IconButton } from '@mui/material';
-
 
 
 function EndpointPage(props) {
@@ -29,6 +28,7 @@ function EndpointPage(props) {
   const { enqueueSnackbar } = useSnackbar();
   const [RemovingItemPopup, setRemovingItemPopup] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const [AddItemPopup, setAddItemPopup] = useState(false);
 
 
 
@@ -120,11 +120,12 @@ function EndpointPage(props) {
   }
 
   const AddNewItem = () => {
-
+    setAddItemPopup(true)
   }
 
   const handleClose = () => {
     setRemovingItemPopup(false);
+    setAddItemPopup(false)
   };
 
   const openConfirmWindow = (id) => {
@@ -217,7 +218,38 @@ function EndpointPage(props) {
         </DialogActions>
          </Dialog>
 
-
+       
+       //
+       <Dialog
+      open={AddItemPopup}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">
+        {"Fill Below Fields to Add New Item"}
+      </DialogTitle>
+      <DialogContent>
+        
+         { columnName.map((column) => {
+                return <TextField
+                key = {`${column}`}
+                autoFocus
+                margin="dense"
+                id={`${column}`}
+                label={`${column}`}
+                fullWidth
+                variant="standard"
+              />
+         })
+         }
+    
+      </DialogContent>
+      <DialogActions>
+      <Button color="secondary" variant="outlined" onClick={handleClose}>Close</Button>
+          <Button color="secondary" variant="contained" onClick={handleClose} autoFocus>Add New Item </Button>
+      </DialogActions>
+    </Dialog>
 
     </>
   )
