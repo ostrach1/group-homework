@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, Button, Pagination, TablePagination, Container } from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, Button, Pagination, TablePagination, Container, IconButton } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import ClearIcon from '@mui/icons-material/Clear';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -60,7 +60,7 @@ function EndpointPage(props) {
     }
     fetchData(search);
   }, [page, rowsPerPage, endpointName, search]);
-
+<applet></applet>
 
   const handlePageChange = (event, value) => {
 
@@ -111,7 +111,12 @@ function EndpointPage(props) {
     enqueueSnackbar(`Deleted characters with id ${selectedIds}`, { variant: 'success' });
   }
 
+  const AddNewItem = () => {
+
+  }
+
   return (
+    <> 
     <Box backgroundColor={theme.palette.background.default}
     sx={{height: "100vh"}}
     >
@@ -159,7 +164,8 @@ function EndpointPage(props) {
       <Box sx={{display: "flex", justifyContent: "space-between"}}> 
       <Box sx={{display: "flex"}}>
       <SearchField search={search} setSearch={setSearch} />
-      <Button variant="contained" onClick={removeSelectedRows} sx={{m:2, alignItems:"center"}}>Delete Selected Items</Button>
+      <Button variant="contained" onClick={removeSelectedRows} color="secondary" sx={{m:2, alignItems:"center"}}>Delete Selected Items</Button>
+      <Button variant="contained" onClick={AddNewItem} color="secondary" sx={{m:2, alignItems:"center"}}>Add New Item</Button>
       </Box>
       {count && 
         <TablePagination
@@ -171,6 +177,13 @@ function EndpointPage(props) {
       onRowsPerPageChange={handleChangeRowsPerPage}
     />}</Box></Container>
     </Box>
+
+
+
+
+
+
+    </>
   )
 }
 
