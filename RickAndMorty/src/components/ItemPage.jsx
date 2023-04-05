@@ -64,7 +64,6 @@ function ItemPage() {
         newDetails.push(`${key}: ${value}`);
       }
     });
-
     const filteredDetails = newDetails.filter((word) => word.length < 40);
     setDetails(filteredDetails);
   };
@@ -75,7 +74,7 @@ function ItemPage() {
         sx={{
           display: "flex",
           flexWrap: "wrap",
-          height: "100vh",
+
           width: "100vw",
           bgcolor: theme.palette.background.default,
           justifyContent: "center",
@@ -84,7 +83,6 @@ function ItemPage() {
         <Box
           sx={{
             display: "flex",
-            height: "60vh",
             border: "1px solid black",
             borderRadius: 2,
             bgcolor: "white",
