@@ -30,6 +30,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { useSnackbar } from "notistack";
 import { IconButton } from "@mui/material";
 import TableGenerator from "./TableGenerator";
+import AddItemDialog from "./AddItemDialog";
 
 function EndpointPage(props) {
   const [fetcheddata, setFetchData] = useState([]);
@@ -211,44 +212,11 @@ function EndpointPage(props) {
         </DialogActions>
       </Dialog>
 
-      <Dialog
+      <AddItemDialog
+        columnName={columnName}
         open={AddItemPopup}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Fill Below Fields to Add New Item"}
-        </DialogTitle>
-        <DialogContent>
-          {columnName.map((column) => {
-            return (
-              <TextField
-                key={`${column}`}
-                autoFocus
-                margin="dense"
-                id={`${column}`}
-                label={`${column}`}
-                fullWidth
-                variant="standard"
-              />
-            );
-          })}
-        </DialogContent>
-        <DialogActions>
-          <Button color="secondary" variant="outlined" onClick={handleClose}>
-            Close
-          </Button>
-          <Button
-            color="secondary"
-            variant="contained"
-            onClick={handleClose}
-            autoFocus
-          >
-            Add New Item{" "}
-          </Button>
-        </DialogActions>
-      </Dialog>
+        handleClose={handleClose}
+      />
     </>
   );
 }
