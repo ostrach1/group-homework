@@ -30,6 +30,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { useSnackbar } from "notistack";
 import { IconButton } from "@mui/material";
 import TableGenerator from "./TableGenerator";
+import AddItemDialog from "./AddItemDialog";
 
 function EndpointPage(props) {
   const [fetcheddata, setFetchData] = useState([]);
@@ -55,7 +56,6 @@ function EndpointPage(props) {
     for (let i = startIndex; i < endIndex; i++) {
       ids.push(i);
     }
-    console.log(ids);
 
     async function fetchData(name) {
       const response = await axios.get(
@@ -104,7 +104,6 @@ function EndpointPage(props) {
     );
   };
   const handleCheckboxClick = (event, id) => {
-    console.log("IDD", id);
     if (event.target.checked) {
       setSelectedIds([...selectedIds, id]);
     }
@@ -120,7 +119,6 @@ function EndpointPage(props) {
   };
 
   const removeSelectedRows = () => {
-    console.log(selectedIds);
     const updatedFetchedData = fetcheddata.filter(
       (character) => !selectedIds.includes(character.id)
     );
@@ -214,44 +212,11 @@ function EndpointPage(props) {
         </DialogActions>
       </Dialog>
 
-      <Dialog
+      <AddItemDialog
+        columnName={columnName}
         open={AddItemPopup}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Fill Below Fields to Add New Item"}
-        </DialogTitle>
-        <DialogContent>
-          {columnName.map((column) => {
-            return (
-              <TextField
-                key={`${column}`}
-                autoFocus
-                margin="dense"
-                id={`${column}`}
-                label={`${column}`}
-                fullWidth
-                variant="standard"
-              />
-            );
-          })}
-        </DialogContent>
-        <DialogActions>
-          <Button color="secondary" variant="outlined" onClick={handleClose}>
-            Close
-          </Button>
-          <Button
-            color="secondary"
-            variant="contained"
-            onClick={handleClose}
-            autoFocus
-          >
-            Add New Item{" "}
-          </Button>
-        </DialogActions>
-      </Dialog>
+        handleClose={handleClose}
+      />
     </>
   );
 }

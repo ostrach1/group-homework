@@ -57,13 +57,11 @@ function ItemPage() {
         const isoDate = value;
         const date = dayjs(isoDate).format("DD-MM-YYYY");
         newDetails.push(`${key}: ${date}`);
-      } else if (key === "characters") {
-        console.log("tuututu", key);
-        newDetails.push(`${key}: guzik`);
       } else {
         newDetails.push(`${key}: ${value}`);
       }
     });
+
     const filteredDetails = newDetails.filter((word) => word.length < 40);
     setDetails(filteredDetails);
   };
@@ -97,9 +95,9 @@ function ItemPage() {
           )}
           <Box sx={{ margin: 2 }}>
             {details.map((item) => {
-              return <Typography key={item.id}>{item}</Typography>;
+              return <Typography key={item}>{item}</Typography>;
             })}
-            {/* <Button variant="contained">TEST</Button> */}
+            <Button variant="contained">TEST</Button>
           </Box>
         </Box>
       </Box>
