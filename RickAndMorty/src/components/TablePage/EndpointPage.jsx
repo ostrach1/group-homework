@@ -55,7 +55,6 @@ function EndpointPage(props) {
     for (let i = startIndex; i < endIndex; i++) {
       ids.push(i);
     }
-    console.log(ids);
 
     async function fetchData(name) {
       const response = await axios.get(
@@ -104,7 +103,6 @@ function EndpointPage(props) {
     );
   };
   const handleCheckboxClick = (event, id) => {
-    console.log("IDD", id);
     if (event.target.checked) {
       setSelectedIds([...selectedIds, id]);
     }
@@ -120,7 +118,6 @@ function EndpointPage(props) {
   };
 
   const removeSelectedRows = () => {
-    console.log(selectedIds);
     const updatedFetchedData = fetcheddata.filter(
       (character) => !selectedIds.includes(character.id)
     );
