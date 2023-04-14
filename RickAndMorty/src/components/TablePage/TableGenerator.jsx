@@ -29,6 +29,7 @@ function TableGenerator({
   columnName,
   handleCheckboxClick,
   rowClickHandle,
+  openConfirmWindow
 }) {
   return (
     <>

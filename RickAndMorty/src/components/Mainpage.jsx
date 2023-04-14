@@ -27,10 +27,15 @@ function Mainpage() {
     async function fetchData() {
       const response = await axios.get(`https://rickandmortyapi.com/api`);
       setFetchEndpoints(response.data);
-      console.log();
+      console.log("RESPONE", response.data);
       // Zapisywanie pobranych danych w localStorage
       localStorage.setItem("fetchedEndpoints", JSON.stringify(response.data));
+      await axios.post("http://localhost:3000/", {
+        setFetchEndpoints
+      });
     }
+
+   
 
     // Sprawdzanie, czy dane są już zapisane w localStorage i pobieranie ich
     const savedEndpoints = localStorage.getItem("fetchedEndpoints");
