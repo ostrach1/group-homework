@@ -6,7 +6,7 @@ import {
   DialogActions,
   Button,
   TextField,
-} from "@material-ui/core";
+} from "@mui/material";
 
 const AddItemDialog = ({ columnName, open, handleClose }) => {
   const [values, setValues] = useState({});
