@@ -65,7 +65,7 @@ function EndpointPage(props) {
       );
     }
     fetchData(search);
-  }, [page, rowsPerPage, endpointName, search, count]);
+  }, [page, rowsPerPage, endpointName, search, newData]);
   <applet></applet>;
 
   const handlePageChange = (event, value) => {
