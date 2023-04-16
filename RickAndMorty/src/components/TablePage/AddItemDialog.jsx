@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import {
   Dialog,
   DialogTitle,
@@ -8,9 +9,25 @@ import {
   TextField,
 } from "@mui/material";
 
-const AddItemDialog = ({ columnName, open, handleClose }) => {
-  const [values, setValues] = useState({});
+const AddItemDialog = ({
+  columnName,
+  open,
+  handleClose,
+  setNewData,
+  newData,
+  endpointName,
+  count,
+}) => {
+  const [values, setValues] = useState([]);
   const [errors, setErrors] = useState({});
+  const { submit, handleSubmit } = useForm();
+
+  useEffect(() => {
+    const storedData = localStorage.getItem(`strg-${endpointName}`);
+    if (storedData) {
+      setNewData(JSON.parse(storedData));
+    }
+  }, [endpointName]);
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
@@ -18,6 +35,21 @@ const AddItemDialog = ({ columnName, open, handleClose }) => {
       ...prevValues,
       [id]: value,
     }));
+    console.log(values);
+  };
+
+  const onSubmit = () => {
+    const isValid = validate();
+    if (isValid) {
+      setNewData([...newData, values]);
+      localStorage.setItem(
+        `strg-${endpointName}`,
+        JSON.stringify([...newData, values])
+      );
+      console.log(values);
+      console.log();
+      handleClose();
+    }
   };
 
   const validate = () => {
@@ -33,20 +65,13 @@ const AddItemDialog = ({ columnName, open, handleClose }) => {
 
   const inputType = (item) => {
     if (item === "id") {
-      return "number";
-    } else if (
-      item === "Created" ||
-      item === "Air_Date" ||
-      item === "created"
-    ) {
-      return "date";
-    }
-  };
-
-  const handleSubmit = () => {
-    const isValid = validate();
-    if (isValid) {
-      handleClose();
+      return {
+        inputMode: "numeric",
+        pattern: "[0-9]*",
+        defaultValue: count + 1,
+      };
+    } else if (item === "created" || item === "air_Date") {
+      return { type: "date" };
     }
   };
 
@@ -54,40 +79,42 @@ const AddItemDialog = ({ columnName, open, handleClose }) => {
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>{"Fill Below Fields to Add New Item"}</DialogTitle>
       <DialogContent>
-        {columnName.map((column) => {
-          return (
-            <TextField
-              key={`${column}`}
-              type={inputType(column)}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {columnName.map((column) => {
+            return (
+              <TextField
+                key={`${column}`}
+                autoFocus
+                margin="dense"
+                id={`${column}`}
+                label={column}
+                fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={inputType(column)}
+                variant="standard"
+                error={errors[column]}
+                helperText={errors[column] ? `${column} is required` : ""}
+                onChange={handleInputChange}
+              />
+            );
+          })}
+          <DialogActions>
+            <Button
+              type="submit"
+              color="secondary"
+              variant="contained"
               autoFocus
-              margin="dense"
-              id={`${column}`}
-              label={column}
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-              variant="standard"
-              error={errors[column]}
-              helperText={errors[column] ? `${column} is required` : ""}
-              onChange={handleInputChange}
-            />
-          );
-        })}
+            >
+              Add New Item{" "}
+            </Button>
+            <Button color="secondary" variant="outlined" onClick={handleClose}>
+              Close
+            </Button>
+          </DialogActions>
+        </form>
       </DialogContent>
-      <DialogActions>
-        <Button color="secondary" variant="outlined" onClick={handleClose}>
-          Close
-        </Button>
-        <Button
-          color="secondary"
-          variant="contained"
-          onClick={handleSubmit}
-          autoFocus
-        >
-          Add New Item{" "}
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 };

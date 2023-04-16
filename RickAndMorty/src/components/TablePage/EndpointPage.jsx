@@ -1,34 +1,19 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import {
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TableContainer,
-  Paper,
   Button,
-  Pagination,
   TablePagination,
   Container,
   Dialog,
   DialogActions,
   DialogTitle,
-  DialogContent,
-  DialogContentText,
-  TextField,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import ClearIcon from "@mui/icons-material/Clear";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { ThemeContext } from "../../context/ThemeContext";
 import { Box } from "@mui/material";
 import { useTheme } from "@mui/material";
 import SearchField from "./SearchField";
-import Checkbox from "@mui/material/Checkbox";
 import { useSnackbar } from "notistack";
-import { IconButton } from "@mui/material";
 import TableGenerator from "./TableGenerator";
 import AddItemDialog from "./AddItemDialog";
 
@@ -48,6 +33,7 @@ function EndpointPage(props) {
   const [RemovingItemPopup, setRemovingItemPopup] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [AddItemPopup, setAddItemPopup] = useState(false);
+  const [newData, setNewData] = useState([]);
 
   useEffect(() => {
     const startIndex = page * rowsPerPage + 1;
@@ -70,15 +56,16 @@ function EndpointPage(props) {
 
       setFetchData(name !== undefined ? response.data.results : response.data);
       getColumnName();
+      console.log(name !== undefined ? response.data.results : response.data);
 
       setCount(
         name !== undefined
-          ? response.data.info.count
-          : auxiliaryFetch.data.info.count
+          ? response.data.info.count + newData.length
+          : auxiliaryFetch.data.info.count + newData.length
       );
     }
     fetchData(search);
-  }, [page, rowsPerPage, endpointName, search]);
+  }, [page, rowsPerPage, endpointName, search, newData]);
   <applet></applet>;
 
   const handlePageChange = (event, value) => {
@@ -99,8 +86,8 @@ function EndpointPage(props) {
       endpointName === "character"
         ? ["id", "name", "species", "gender", "created"]
         : endpointName === "episode"
-        ? ["id", "Episode", "Name", "Air_Date", "Created"]
-        : ["id", "Name", "Type", "Dimension", "Created"]
+        ? ["id", "episode", "name", "air_Date", "created"]
+        : ["id", "name", "type", "dimension", "created"]
     );
   };
   const handleCheckboxClick = (event, id) => {
@@ -109,7 +96,7 @@ function EndpointPage(props) {
     }
   };
 
-  const handleClearClick = (id) => {
+  const handleClearClick = (id, collection) => {
     handleClose();
     const updatedFetchedData = fetcheddata.filter(
       (character) => character.id !== id
@@ -155,6 +142,8 @@ function EndpointPage(props) {
             handleCheckboxClick={handleCheckboxClick}
             rowClickHandle={rowClickHandle}
             openConfirmWindow={openConfirmWindow}
+            newData={newData}
+            removeSelectedRows={removeSelectedRows}
           />
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Box sx={{ display: "flex" }}>
@@ -216,6 +205,12 @@ function EndpointPage(props) {
         columnName={columnName}
         open={AddItemPopup}
         handleClose={handleClose}
+        setNewData={setNewData}
+        newData={newData}
+        endpointName={endpointName}
+        count={count}
+        setFetchData={setFetchData}
+        fetcheddata={fetcheddata}
       />
     </>
   );

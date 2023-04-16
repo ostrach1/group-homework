@@ -1,9 +1,5 @@
 import React from "react";
-import { Box } from "@mui/material";
-import ClearIcon from "@mui/icons-material/Clear";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import Checkbox from "@mui/material/Checkbox";
-import SearchField from "./SearchField";
+import TableRowAdd from "./TableRowAdd";
 import {
   Table,
   TableHead,
@@ -12,16 +8,6 @@ import {
   TableBody,
   TableContainer,
   Paper,
-  Button,
-  Pagination,
-  TablePagination,
-  Container,
-  Dialog,
-  DialogActions,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  TextField,
 } from "@mui/material";
 
 function TableGenerator({
@@ -29,7 +15,9 @@ function TableGenerator({
   columnName,
   handleCheckboxClick,
   rowClickHandle,
-  openConfirmWindow
+  openConfirmWindow,
+  newData,
+  removeSelectedRows,
 }) {
   return (
     <>
@@ -45,41 +33,16 @@ function TableGenerator({
           </TableHead>
 
           <TableBody>
-            {fetcheddata.map((item) => (
-              <TableRow key={item.id}>
-                {columnName.map((column) => (
-                  <TableCell key={column}>
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
-                      {column === "id" ? (
-                        <Checkbox
-                          onChange={() => handleCheckboxClick(event, item.id)}
-                        />
-                      ) : null}
-                      <Box onClick={() => rowClickHandle(item.id)}>
-                        {column === "created" || column === "Created"
-                          ? new Date(
-                              item[column.toLowerCase()]
-                            ).toLocaleDateString("pl-PL", {
-                              day: "2-digit",
-                              month: "2-digit",
-                              year: "numeric",
-                            })
-                          : item[column.toLowerCase()]}
-                      </Box>
-                    </Box>{" "}
-                  </TableCell>
-                ))}
-                <TableCell>
-                  <Box>
-                    <ClearIcon
-                      sx={{ marginRight: "10px" }}
-                      onClick={() => openConfirmWindow(item.id)}
-                    />
-                    <ArrowForwardIcon onClick={() => rowClickHandle(item.id)} />
-                  </Box>
-                </TableCell>
-              </TableRow>
-            ))}
+            <TableRowAdd
+              data={fetcheddata}
+              columnName={columnName}
+              handleCheckboxClick={handleCheckboxClick}
+              rowClickHandle={rowClickHandle}
+              openConfirmWindow={openConfirmWindow}
+              removeSelectedRows={removeSelectedRows}
+            />
+
+            <TableRowAdd data={newData} columnName={columnName} />
           </TableBody>
         </Table>
       </TableContainer>
