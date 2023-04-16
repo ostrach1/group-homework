@@ -23,7 +23,7 @@ const AddItemDialog = ({
   const { submit, handleSubmit } = useForm();
 
   useEffect(() => {
-    const storedData = localStorage.getItem(endpointName);
+    const storedData = localStorage.getItem(`strg-${endpointName}`);
     if (storedData) {
       setNewData(JSON.parse(storedData));
     }
@@ -35,13 +35,19 @@ const AddItemDialog = ({
       ...prevValues,
       [id]: value,
     }));
+    console.log(values);
   };
 
   const onSubmit = () => {
     const isValid = validate();
     if (isValid) {
       setNewData([...newData, values]);
-      localStorage.setItem(endpointName, JSON.stringify([...newData, values]));
+      localStorage.setItem(
+        `strg-${endpointName}`,
+        JSON.stringify([...newData, values])
+      );
+      console.log(values);
+      console.log();
       handleClose();
     }
   };
@@ -64,7 +70,7 @@ const AddItemDialog = ({
         pattern: "[0-9]*",
         defaultValue: count + 1,
       };
-    } else if (item === "created" || item === "Created") {
+    } else if (item === "created" || item === "air_Date") {
       return { type: "date" };
     }
   };

@@ -56,7 +56,7 @@ function EndpointPage(props) {
 
       setFetchData(name !== undefined ? response.data.results : response.data);
       getColumnName();
-      console.log(endpointName);
+      console.log(name !== undefined ? response.data.results : response.data);
 
       setCount(
         name !== undefined
@@ -86,8 +86,8 @@ function EndpointPage(props) {
       endpointName === "character"
         ? ["id", "name", "species", "gender", "created"]
         : endpointName === "episode"
-        ? ["id", "Episode", "Name", "Air_Date", "Created"]
-        : ["id", "Name", "Type", "Dimension", "Created"]
+        ? ["id", "episode", "name", "air_Date", "created"]
+        : ["id", "name", "type", "dimension", "created"]
     );
   };
   const handleCheckboxClick = (event, id) => {
@@ -96,7 +96,7 @@ function EndpointPage(props) {
     }
   };
 
-  const handleClearClick = (id) => {
+  const handleClearClick = (id, collection) => {
     handleClose();
     const updatedFetchedData = fetcheddata.filter(
       (character) => character.id !== id
@@ -143,6 +143,7 @@ function EndpointPage(props) {
             rowClickHandle={rowClickHandle}
             openConfirmWindow={openConfirmWindow}
             newData={newData}
+            removeSelectedRows={removeSelectedRows}
           />
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Box sx={{ display: "flex" }}>
@@ -208,6 +209,8 @@ function EndpointPage(props) {
         newData={newData}
         endpointName={endpointName}
         count={count}
+        setFetchData={setFetchData}
+        fetcheddata={fetcheddata}
       />
     </>
   );

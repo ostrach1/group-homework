@@ -17,6 +17,7 @@ function TableGenerator({
   rowClickHandle,
   openConfirmWindow,
   newData,
+  removeSelectedRows,
 }) {
   return (
     <>
@@ -38,6 +39,7 @@ function TableGenerator({
               handleCheckboxClick={handleCheckboxClick}
               rowClickHandle={rowClickHandle}
               openConfirmWindow={openConfirmWindow}
+              removeSelectedRows={removeSelectedRows}
             />
 
             <TableRowAdd data={newData} columnName={columnName} />
