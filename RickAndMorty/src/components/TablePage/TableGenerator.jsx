@@ -31,7 +31,6 @@ function TableGenerator({
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
-
           <TableBody>
             <TableRowAdd
               data={fetcheddata}
@@ -41,7 +40,6 @@ function TableGenerator({
               openConfirmWindow={openConfirmWindow}
               removeSelectedRows={removeSelectedRows}
             />
-
             <TableRowAdd data={newData} columnName={columnName} />
           </TableBody>
         </Table>

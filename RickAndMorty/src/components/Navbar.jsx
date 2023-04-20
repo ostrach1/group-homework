@@ -1,8 +1,6 @@
 import {
-  AppBar,
   Toolbar,
   Typography,
-  styled,
   Container,
   IconButton,
   MenuItem,
@@ -10,9 +8,6 @@ import {
   Button,
 } from "@mui/material";
 import React, { useState } from "react";
-import logo from "../assets/logo.png";
-import logowhite from "../assets/logo_white.png";
-
 import { useContext } from "react";
 import { Box } from "@mui/material";
 import { useTheme } from "@mui/material";
@@ -23,6 +18,8 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import logo from "../assets/logo.png";
+import logowhite from "../assets/logo_white.png";
 
 function NavBar() {
   const pages = ["CHARACTERS", "LOCATIONS", "EPISODES", "CONTACT"];

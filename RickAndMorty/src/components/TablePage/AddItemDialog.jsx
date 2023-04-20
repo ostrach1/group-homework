@@ -46,8 +46,6 @@ const AddItemDialog = ({
         `strg-${endpointName}`,
         JSON.stringify([...newData, values])
       );
-      console.log(values);
-      console.log();
       handleClose();
     }
   };

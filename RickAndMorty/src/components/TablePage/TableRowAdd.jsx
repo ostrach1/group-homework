@@ -12,7 +12,6 @@ function TableRowAdd({
   handleCheckboxClick,
   rowClickHandle,
   openConfirmWindow,
-  removeSelectedRows,
 }) {
   return (
     <>

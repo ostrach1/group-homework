@@ -96,7 +96,7 @@ function EndpointPage(props) {
     }
   };
 
-  const handleClearClick = (id, collection) => {
+  const handleClearClick = (id) => {
     handleClose();
     const updatedFetchedData = fetcheddata.filter(
       (character) => character.id !== id
@@ -107,10 +107,10 @@ function EndpointPage(props) {
 
   const removeSelectedRows = () => {
     const updatedFetchedData = fetcheddata.filter(
-      (character) => !selectedIds.includes(character.id)
+      (item) => !selectedIds.includes(item.id)
     );
     setFetchData(updatedFetchedData);
-    enqueueSnackbar(`Deleted characters with id ${selectedIds}`, {
+    enqueueSnackbar(`Deleted ${endpointName} with id [${selectedIds}] `, {
       variant: "success",
     });
   };

@@ -1,17 +1,7 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import {
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TableContainer,
-  Paper,
-  Button,
-  Pagination,
-} from "@mui/material";
+import { Button } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { ThemeContext } from "../context/ThemeContext";
 import { Box } from "@mui/material";
@@ -31,11 +21,9 @@ function Mainpage() {
       // Zapisywanie pobranych danych w localStorage
       localStorage.setItem("fetchedEndpoints", JSON.stringify(response.data));
       await axios.post("http://localhost:3000/", {
-        setFetchEndpoints
+        setFetchEndpoints,
       });
     }
-
-   
 
     // Sprawdzanie, czy dane są już zapisane w localStorage i pobieranie ich
     const savedEndpoints = localStorage.getItem("fetchedEndpoints");
